@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "run:day:once": "babel-node",
-    "run:day": "nodemon -e js,json,csv --watch src --exec babel-node",
+    "run:day:once": "babel-node --max-old-space-size=15096",
+    "run:day": "nodemon -e js,json,csv --watch src --exec babel-node --max-old-space-size=15096",
     "lint": "eslint ./src",
     "lint:day": "esw --color --watch",
     "test": "jest"

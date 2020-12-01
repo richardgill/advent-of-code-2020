@@ -1,11 +1,22 @@
-import { toUpper, kebabCase } from 'lodash/fp'
+import fs from 'fs'
+import _ from 'lodash'
+import { map, find, sum } from 'lodash/fp'
 
-const b = 'Foo bar' |> kebabCase |> toUpper
-console.log(b)
-console.log('Day 2')
-const o = { x: { y: 1 } }
+const getPairCombosHelper = ([first, second, ...tail]) => {
+  if (!_.isNumber(first) || !_.isNumber(second)) {
+    return []
+  }
+  return [[first, second], ...getPairCombosHelper([first, ...tail])]
+}
+const getPairCombos = ([first, ...tail]) => {
+  if (!_.isNumber(first)) {
+    return []
+  }
+  return [...getPairCombosHelper([first, ...tail]), ...getPairCombos(tail)]
+}
 
-console.log(o?.x?.y)
-console.log(o?.z?.a)
+const input = fs.readFileSync('./data/day1.txt').toString().split('\n') |> map(parseInt)
 
-export const sum = (a1, b1) => a1 + b1
+const result = getPairCombos(input) |> find((x) => sum(x) === 2020)
+
+console.log(result[0] * result[1])
