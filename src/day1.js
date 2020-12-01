@@ -6,7 +6,7 @@ const getPairCombosHelper = ([first, second, ...tail]) => {
   if (!_.isNumber(first) || !_.isNumber(second)) {
     return []
   }
-  return [...tail.map((x) => [(first, second, x)]), ...getPairCombosHelper([first, ...tail])]
+  return [[first, second], ...getPairCombosHelper([first, ...tail])]
 }
 const getPairCombos = ([first, ...tail]) => {
   if (!_.isNumber(first)) {
