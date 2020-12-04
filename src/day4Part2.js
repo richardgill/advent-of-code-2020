@@ -17,7 +17,9 @@ const mandatoryFieldsPresent = (passport) => {
 }
 
 const isFieldBetween = (s, length, min, max) => {
-  return s.length === length && /^\d+$/.test(s) && parseInt(s, 10) >= min && parseInt(s, 10) <= max
+  const digitsRegex = new Regularity().startWith(length, 'digit').endWith('').done()
+  const fieldAsInt = parseInt(s, 10)
+  return digitsRegex.test(s) && fieldAsInt >= min && fieldAsInt <= max
 }
 
 const isBirthYearValid = (passport) => isFieldBetween(passport.byr, 4, 1920, 2002)
