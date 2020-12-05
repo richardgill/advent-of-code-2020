@@ -14,5 +14,6 @@ const inputs =
     const character = characters.replace(':', '')
     return { min: parseInt(min, 10), max: parseInt(max, 10), character, password }
   })
-const validPasswordCount = inputs |> filter((input) => isPasswordValid(input.min, input.max, input.character, input.password)) |> size
+const validPasswordCount =
+  inputs |> filter((input) => isPasswordValid(input.min, input.max, input.character, input.password)) |> size
 console.log(validPasswordCount)

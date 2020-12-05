@@ -14,6 +14,7 @@ const inputs =
     return { index1: parseInt(min, 10) - 1, index2: parseInt(max, 10) - 1, character, password }
   })
 
-const validPasswordCount = inputs |> filter((input) => isPasswordValid(input.index1, input.index2, input.character, input.password)) |> size
+const validPasswordCount =
+  inputs |> filter((input) => isPasswordValid(input.index1, input.index2, input.character, input.password)) |> size
 
 console.log(validPasswordCount)
