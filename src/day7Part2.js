@@ -36,9 +36,11 @@ const flattenContains = (rule, parentCount) => {
 }
 const rules = fs.readFileSync('./data/day7.txt').toString().trim().split('\n') |> map(parseRule)
 
-const ruleTree = rules |> map((rule) => buildRuleTree(rule, rules))
-
-const goldBagRule = ruleTree |> map((r) => ({ ...r, contains: flattenContains(r) })) |> find((r) => r.color === 'shiny gold')
+const goldBagRule =
+  rules
+  |> map((rule) => buildRuleTree(rule, rules))
+  |> map((r) => ({ ...r, contains: flattenContains(r) }))
+  |> find((r) => r.color === 'shiny gold')
 
 const answer = goldBagRule.contains |> map((r) => r.count) |> sum
 
