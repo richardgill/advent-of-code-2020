@@ -34,6 +34,7 @@ const flattenContains = (rule, parentCount) => {
     [rule.count && { color: rule.color, count }, ...(rule.contains |> flatMap((r) => flattenContains(r, count || 1)))] |> compact
   )
 }
+
 const rules = fs.readFileSync('./data/day7.txt').toString().trim().split('\n') |> map(parseRule)
 
 const goldBagRule =
