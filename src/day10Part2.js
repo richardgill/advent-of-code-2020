@@ -1,6 +1,21 @@
 import fs from 'fs'
-import { map, filter } from 'lodash/fp'
-import { range, sortBy, max, isEmpty, drop, sum, dropWhile, takeWhile, size, first } from 'lodash'
+import { map, filter, reduce, drop as dropFp, dropRight as dropRightFp } from 'lodash/fp'
+import {
+  last,
+  range,
+  sortBy,
+  max,
+  isEmpty,
+  drop,
+  sum,
+  dropRight,
+  dropWhile,
+  takeWhile,
+  size,
+  fromPairs,
+  values,
+  first,
+} from 'lodash'
 
 const countArrangementsSlow = ([adapter, ...rest]) => {
   if (isEmpty(rest)) {
@@ -9,6 +24,22 @@ const countArrangementsSlow = ([adapter, ...rest]) => {
   const inReach = rest |> filter((a) => a - adapter <= 3)
   // eslint-disable-next-line no-unused-vars
   return inReach.map((a, index) => countArrangementsSlow([a, ...drop(rest, index + 1)])) |> sum
+}
+
+const countArrangementsDP = (adapters) => {
+  const canBeReachedFroms =
+    adapters
+    |> map((a1) => [a1, adapters |> filter((a) => a < a1 && a1 - a <= 3)])
+    |> dropFp(1)
+    |> dropRightFp(1)
+    |> reduce(
+      (resultsSoFar, [adapter, canBeReachedFrom]) => {
+        const count = fromPairs(canBeReachedFrom |> map((x) => [x, resultsSoFar[x]]))
+        return { ...resultsSoFar, ...count, [adapter]: sum(values(count)) }
+      },
+      { 0: 1 },
+    )
+  return canBeReachedFroms[last(dropRight(adapters, 1))]
 }
 
 const sumLastThreeSequence = (num, prev3 = [1, 0, 0]) => {
@@ -46,9 +77,9 @@ const countArrangementsFast = (adapters) => {
 const test = (adapters) => {
   const sortedAdapters = [0, ...sortBy(adapters), max(adapters) + 3]
   console.log('sortedAdapters', sortedAdapters)
-  // console.log('slow', countArrangementsSlow(sortedAdapters))
   const differences = calculateDifferences(sortedAdapters)
   console.log('fast', countArrangementsFast(sortedAdapters))
+  console.log('fastDP', countArrangementsDP(sortedAdapters))
   console.log('differences', differences)
   console.log('\n')
 }
