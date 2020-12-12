@@ -10,7 +10,12 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  rules: { 'prettier/prettier': 'error', 'no-console': 'off', 'import/prefer-default-export': 'off' },
+  rules: {
+    'prettier/prettier': 'error',
+    'no-console': 'off',
+    'import/prefer-default-export': 'off',
+    'no-restricted-syntax': 'off',
+  },
   overrides: [
     {
       files: ['**/*.test.js'],

@@ -8,7 +8,8 @@
     "run:day": "nodemon -e js,json,csv --watch src --exec babel-node --max-old-space-size=15096",
     "lint": "eslint ./src",
     "lint:day": "esw --color --watch",
-    "test": "jest"
+    "test": "jest",
+    "test:day": "jest --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
