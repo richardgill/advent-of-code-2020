@@ -1,6 +1,6 @@
 import fs from 'fs'
-import { map, filter } from 'lodash/fp'
-import { nth, compact, get, size, flatten, isEqual } from 'lodash'
+import { filter } from 'lodash/fp'
+import { compact, get, size, flatten, isEqual } from 'lodash'
 
 const EMPTY_SEAT = 'L'
 const OCCUPIED_SEAT = '#'

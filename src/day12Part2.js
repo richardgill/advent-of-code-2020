@@ -10,26 +10,15 @@ const parseInstruction = (instructionString) => ({
 const parseInput = (file) => fs.readFileSync(file).toString().trim().split('\n').map(parseInstruction)
 
 export const rotate = (instruction, wayPointPosition) => {
-  const magnitude = instruction.magnitude % 360
-  if (magnitude === 0) {
+  if (instruction.magnitude === 0) {
     return wayPointPosition
   }
-  if (magnitude === 180) {
-    return rotate(
-      { instruction: instruction.instruction, magnitude: 90 },
-      rotate({ instruction: instruction.instruction, magnitude: 90 }, wayPointPosition),
-    )
-  }
-  if (magnitude === 270) {
-    return rotate({ instruction: instruction.instruction === 'R' ? 'L' : 'R', magnitude: 90 }, wayPointPosition)
-  }
-  if (instruction.instruction === 'R' && magnitude === 90) {
-    return { x: wayPointPosition.y, y: wayPointPosition.x * -1 }
-  }
-  if (instruction.instruction === 'L' && magnitude === 90) {
-    return { x: wayPointPosition.y * -1, y: wayPointPosition.x }
-  }
-  throw new Error("Couldn't handle rotate args")
+  return rotate(
+    { instruction: instruction.instruction, magnitude: instruction.magnitude - 90 },
+    instruction.instruction === 'R'
+      ? { x: wayPointPosition.y, y: wayPointPosition.x * -1 }
+      : { x: wayPointPosition.y * -1, y: wayPointPosition.x },
+  )
 }
 
 export const moveToWayPoint = (instruction, wayPointPosition, shipPosition) => {

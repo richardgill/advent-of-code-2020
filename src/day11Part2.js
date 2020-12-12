@@ -13,15 +13,15 @@ const parseInput = (file) =>
     .split('\n')
     .map((row) => row.split(''))
 
-const printSeats = (seats) => {
-  seats.forEach((col) => {
-    col.forEach((seat) => {
-      process.stdout.write(`${seat} `)
-    })
-    console.log('\n')
-  })
-  console.log('\n')
-}
+// const printSeats = (seats) => {
+//   seats.forEach((col) => {
+//     col.forEach((seat) => {
+//       process.stdout.write(`${seat} `)
+//     })
+//     console.log('\n')
+//   })
+//   console.log('\n')
+// }
 
 // null safe
 const getSeat = (x, y, seats) => get(seats, [y, x])
