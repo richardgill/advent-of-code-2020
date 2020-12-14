@@ -15,6 +15,8 @@ module.exports = {
     'no-console': 'off',
     'import/prefer-default-export': 'off',
     'no-restricted-syntax': 'off',
+    'no-var': 'off',
+    'no-bitwise': 'off',
   },
   overrides: [
     {
