@@ -1,7 +1,4 @@
-import { dropRight, last, isNil, fromPairs } from 'lodash'
-
-// const debugLog = (...args) => console.log(...args)
-const debugLog = () => null
+import { last, isNil, fromPairs } from 'lodash'
 
 const calculateSequence = (numbersSoFar, until) => {
   if (numbersSoFar.length === until) {
