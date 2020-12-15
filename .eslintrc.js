@@ -17,6 +17,7 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'no-var': 'off',
     'no-bitwise': 'off',
+    'no-plusplus': 'off',
   },
   overrides: [
     {
