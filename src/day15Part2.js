@@ -1,30 +1,30 @@
-import { last, isNil, fromPairs } from 'lodash'
+import { last, isNil } from 'lodash'
 
-const calculateSequence = (numbersSoFar, until) => {
+const calculateNumber = (numbersSoFar, until) => {
   if (numbersSoFar.length === until) {
     return numbersSoFar
   }
-
-  const lastSeen = numbersSoFar.map((number, index) => [number, index]) |> fromPairs
+  const lastSeen = new Array(1000000000)
+  numbersSoFar.forEach((number, index) => {
+    lastSeen[number] = index
+  })
+  let number = last(numbersSoFar)
+  let lastNumber
   for (let index = numbersSoFar.length; index < until; index++) {
-    if (index % 100000 === 0) {
-      console.log(`${(index / until) * 100}%`)
-    }
-    const number = last(numbersSoFar)
     const lastSeenIndex = lastSeen[number]
     const notSeenBefore = isNil(lastSeenIndex)
-    const numberToAdd = notSeenBefore ? 0 : numbersSoFar.length - lastSeenIndex - 1
-    numbersSoFar.push(numberToAdd)
-    // this is: lastSeen[numberToAdd] = index but for the previous element, so there is a lag by 1
-    lastSeen[numbersSoFar[index - 1]] = index - 1
+
+    const numberToAdd = notSeenBefore ? 0 : index - lastSeenIndex - 1
+    lastNumber = number
+    number = numberToAdd
+    lastSeen[lastNumber] = index - 1
   }
-  return numbersSoFar
+  return number
 }
 
 const testInput = (startingNumbers) => {
-  const sequence = calculateSequence(startingNumbers, 2020)
-  console.log('sequence', sequence)
-  console.log('answer', last(sequence))
+  const answer = calculateNumber(startingNumbers, 30000000)
+  console.log('answer', answer)
   console.log('\n')
 }
 // testInput([0, 3, 6])
