@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { range, times, get, compact, flatten, flattenDeep } from 'lodash'
+import { range, times, get, compact, flattenDeep } from 'lodash'
 import Iter from 'es-iter'
 
 const readFile = (file) => {
