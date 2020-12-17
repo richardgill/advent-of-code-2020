@@ -16,26 +16,34 @@ const parseInput = (inputString) => {
 const GRID_SIZE_BUFFER = 0
 const makeGridInfinite = (state, cycles) => {
   const gridSize = state.length + cycles * 2 + GRID_SIZE_BUFFER
-  const zToInsert = Math.floor(gridSize / 2)
+  const zwToInsert = Math.floor(gridSize / 2)
   const startInsertIndex = (gridSize - state.length) / 2
   const endInsertIndex = gridSize - startInsertIndex - 1
-  console.log(zToInsert)
-  console.log(startInsertIndex)
-  console.log(endInsertIndex)
-  return times(gridSize, (z) =>
-    times(gridSize, (y) =>
-      times(gridSize, (x) => {
-        if (zToInsert === z && y >= startInsertIndex && y <= endInsertIndex && x >= startInsertIndex && x <= endInsertIndex) {
-          return state[y - startInsertIndex][x - startInsertIndex]
-        }
-        return '.'
-      }),
+  return times(gridSize, (w) =>
+    times(gridSize, (z) =>
+      times(gridSize, (y) =>
+        times(gridSize, (x) => {
+          if (
+            zwToInsert === w &&
+            zwToInsert === z &&
+            y >= startInsertIndex &&
+            y <= endInsertIndex &&
+            x >= startInsertIndex &&
+            x <= endInsertIndex
+          ) {
+            return state[y - startInsertIndex][x - startInsertIndex]
+          }
+          return '.'
+        }),
+      ),
     ),
   )
 }
 
 const printState = (state) => {
-  const toPrint = state.map((yPlane) => yPlane.map((xPlane) => xPlane.join('')).join('\n')).join('\n\n')
+  const toPrint = state
+    .map((zPlane) => zPlane.map((yPlane) => yPlane.map((xPlane) => xPlane.join('')).join('\n')).join('\n\n'))
+    .join('\n\n')
   console.log(toPrint)
 }
 
@@ -47,29 +55,27 @@ const calculateNewValue = (currentValue, adjacentValues) => {
   return adjacentActiveCount === 3 ? '#' : '.'
 }
 
-const calculateAdajacentValues = (state, z, y, x) => {
-  const adjacentIndexes = new Iter([z, z + 1, z - 1])
+const calculateAdajacentValues = (state, w, z, y, x) => {
+  const adjacentIndexes = new Iter([w, w + 1, w - 1])
+    .product([z, z + 1, z - 1])
     .product([y, y + 1, y - 1])
     .product([x, x + 1, x - 1])
     .toArray()
-    .map(flatten)
+    .map(flattenDeep)
     // remove original coordinates
-    .filter(([z0, y0, x0]) => !(z0 === z && y0 === y && x0 === x))
-  // console.log('adjacentIndexes', adjacentIndexes)
+    .filter(([w0, z0, y0, x0]) => !(w0 === w && z0 === z && y0 === y && x0 === x))
   return adjacentIndexes.map((indexes) => get(state, indexes)) |> compact
 }
 
 const runCycle = (state) => {
-  return state.map((zPlane, z) => {
-    return zPlane.map((yPlane, y) => {
-      return yPlane.map((value, x) => {
-        // console.log('\n\nz,y,x', z, y, x)
-        // console.log('value', value)
-        const adjacentValues = calculateAdajacentValues(state, z, y, x)
-        // console.log('adjacentValues', adjacentValues)
-        const newValue = calculateNewValue(value, adjacentValues)
-        // console.log('newValue', newValue)
-        return newValue
+  return state.map((wPlane, w) => {
+    return wPlane.map((zPlane, z) => {
+      return zPlane.map((yPlane, y) => {
+        return yPlane.map((value, x) => {
+          const adjacentValues = calculateAdajacentValues(state, w, z, y, x)
+          const newValue = calculateNewValue(value, adjacentValues)
+          return newValue
+        })
       })
     })
   })
@@ -87,9 +93,8 @@ const testInput = (input) => {
   range(1, CYCLES + 1).forEach((cycle) => {
     infiniteGrid = runCycle(infiniteGrid)
     console.log(`\n\nafter cycle ${cycle}`)
-    printState(infiniteGrid)
+    // printState(infiniteGrid)
   })
-  // console.log(flatten(infiniteGrid))
   const answer = flattenDeep(infiniteGrid).filter((x) => x === '#').length
   console.log('answer', answer)
 }
