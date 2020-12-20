@@ -1,5 +1,4 @@
-import { drop, isEmpty, last, unzip, first, some, isEqual, sum } from 'lodash'
-// import { keyBy } from 'lodash/fp'
+import { drop, isEmpty, last, unzip, first, some, isEqual } from 'lodash'
 import fs from 'fs'
 
 const readFile = (file) => {
