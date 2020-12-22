@@ -19,6 +19,7 @@ module.exports = {
     'no-bitwise': 'off',
     'no-plusplus': 'off',
     'no-constant-condition': 'off',
+    'no-param-reassign': 'off',
   },
   overrides: [
     {
