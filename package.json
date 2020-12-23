@@ -36,6 +36,7 @@
     "lodash": "^4.17.20",
     "mathjs": "^8.1.0",
     "memoizee": "^0.4.14",
-    "regularity": "^0.5.1"
+    "regularity": "^0.5.1",
+    "yallist": "^4.0.0"
   }
 }
